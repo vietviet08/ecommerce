@@ -1,14 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AccountOptionsFragment">
+    tools:context=".fragments.RegisterFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/blury_background" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/appName"
+            style="@style/h3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:drawableStart="@drawable/ic_kleine_shape"
+            android:drawablePadding="10dp"
+            android:text="@string/app_name"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/titleIntroduction"
+            style="@style/h4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="115dp"
+            android:gravity="center"
+            android:text="@string/titleIntroduction"
+            android:textAlignment="center"
+            android:textSize="35sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appName" />
+
+
+        <TextView
+            android:id="@+id/detailTitleIntroduction"
+            style="@style/h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/detailTitleIntroduction"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/titleIntroduction"
+            app:layout_constraintStart_toStartOf="@id/titleIntroduction"
+            app:layout_constraintTop_toBottomOf="@id/titleIntroduction" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/registerButton"
+            style="@style/blueButtonStyle"
+            android:layout_width="200dp"
+            android:layout_height="55dp"
+            android:text="Register"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/detailTitleIntroduction"
+            app:layout_constraintStart_toStartOf="@id/detailTitleIntroduction"
+            app:layout_constraintTop_toBottomOf="@id/detailTitleIntroduction" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/loginButton"
+            style="@style/whiteButtonStyle"
+            android:layout_width="200dp"
+            android:layout_height="55dp"
+            android:text="Login"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
