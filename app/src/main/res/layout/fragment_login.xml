@@ -50,7 +50,7 @@
             app:layout_constraintTop_toBottomOf="@id/appName" />
 
         <TextView
-            android:id="@+id/detailTitleIntroduction"
+            android:id="@+id/textViewGoToRegister"
             style="@style/h2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="@id/guidelineRight"
             app:layout_constraintStart_toStartOf="@id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@id/detailTitleIntroduction" />
+            app:layout_constraintTop_toBottomOf="@id/textViewGoToRegister" />
 
 
         <EditText
@@ -127,8 +127,8 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="67dp"
+            android:layout_height="20dp"
             android:text="Facebook"
 
             app:layout_constraintBottom_toBottomOf="@id/facebookLogin"

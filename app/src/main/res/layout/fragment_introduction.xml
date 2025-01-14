@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="115dp"
+        android:elevation="10dp"
         android:gravity="center"
         android:text="@string/titleIntroduction"
         android:textAlignment="center"
@@ -47,7 +48,7 @@
 
 
     <TextView
-        android:id="@+id/detailTitleIntroduction"
+        android:id="@+id/textViewDetail"
         style="@style/h2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,9 +74,9 @@
         android:layout_height="55dp"
         android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/detailTitleIntroduction"
-        app:layout_constraintStart_toStartOf="@id/detailTitleIntroduction"
-        app:layout_constraintTop_toBottomOf="@id/detailTitleIntroduction" />
+        app:layout_constraintEnd_toEndOf="@id/textViewDetail"
+        app:layout_constraintStart_toStartOf="@id/textViewDetail"
+        app:layout_constraintTop_toBottomOf="@id/textViewDetail" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineLeft"
