@@ -1,7 +1,7 @@
 package com.vietquoc.ecommerce.util
 
 sealed class RegisterValidation() {
-    object Success : RegisterValidation()
+    data object Success : RegisterValidation()
     data class Failed(val message: String) : RegisterValidation()
 }
 

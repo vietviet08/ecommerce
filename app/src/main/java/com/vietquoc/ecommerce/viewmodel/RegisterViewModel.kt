@@ -2,8 +2,9 @@ package com.vietquoc.ecommerce.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.vietquoc.ecommerce.data.User
+import com.vietquoc.ecommerce.util.Constants
 import com.vietquoc.ecommerce.util.RegisterFieldState
 import com.vietquoc.ecommerce.util.RegisterValidation
 import com.vietquoc.ecommerce.util.Resource
@@ -19,11 +20,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val db: FirebaseFirestore
 ) : ViewModel() {
 
-    private val _register = MutableStateFlow<Resource<FirebaseUser>>(Resource.Unspecified())
-    val register: Flow<Resource<FirebaseUser>> = _register
+    private val _register = MutableStateFlow<Resource<User>>(Resource.Unspecified())
+    val register: Flow<Resource<User>> = _register
 
     private val _validation = Channel<RegisterFieldState>()
     val validation = _validation.receiveAsFlow()
@@ -39,7 +41,7 @@ class RegisterViewModel @Inject constructor(
             firebaseAuth.createUserWithEmailAndPassword(user.email, password)
                 .addOnSuccessListener {
                     it.user?.let {
-                        _register.value = Resource.Success(it)
+                        saveUserInfo(user, userUid = it.uid)
                     }
 
                 }
@@ -63,5 +65,17 @@ class RegisterViewModel @Inject constructor(
 
         return emailValidation is RegisterValidation.Success &&
                 passwordValidation is RegisterValidation.Success
+    }
+
+    private fun saveUserInfo(user: User, userUid: String) {
+        db.collection(Constants.USER_COLLECTION)
+            .document(userUid)
+            .set(user)
+            .addOnSuccessListener {
+                _register.value = Resource.Success(user)
+            }
+            .addOnFailureListener {
+                _register.value = Resource.Error(it.message.toString())
+            }
     }
 }
