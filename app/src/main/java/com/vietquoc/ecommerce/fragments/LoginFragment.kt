@@ -10,12 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.vietquoc.ecommerce.R
 import com.vietquoc.ecommerce.activites.ShoppingActivity
 import com.vietquoc.ecommerce.databinding.FragmentLoginBinding
+import com.vietquoc.ecommerce.dialog.setupBottomSetDialog
 import com.vietquoc.ecommerce.util.Resource
 import com.vietquoc.ecommerce.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -44,6 +47,12 @@ class LoginFragment : Fragment() {
             textViewGoToRegister.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             }
+
+            forgotPassword.setOnClickListener {
+                setupBottomSetDialog { email ->
+                    viewmodel.resetPassword(email)
+                }
+            }
         }
 
         lifecycleScope.launchWhenCreated {
@@ -70,6 +79,35 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewmodel.resetPassword.collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.loginButtonPageLogin.startAnimation()
+                    }
+
+                    is Resource.Success -> {
+                        binding.loginButtonPageLogin.revertAnimation()
+                        Snackbar.make(
+                            requireView(),
+                            "Reset link was sent to your email",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+
+                    is Resource.Error -> {
+                        binding.loginButtonPageLogin.revertAnimation()
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                        Snackbar.make(requireView(), "Error: ${it.message}", Snackbar.LENGTH_LONG)
+                            .show()
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
+
     }
 
 }

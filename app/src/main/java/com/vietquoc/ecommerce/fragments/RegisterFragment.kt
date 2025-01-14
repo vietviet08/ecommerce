@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -61,7 +62,13 @@ class RegisterFragment : Fragment() {
 
                     is Resource.Success -> {
                         Log.d("register success", it.data.toString())
+                        Toast.makeText(
+                            requireContext(),
+                            "Welcome to the ecommerce shop, happy shopping!",
+                            Toast.LENGTH_LONG
+                        ).show()
                         binding.registerButtonPageRegister.revertAnimation()
+                        findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                     }
 
                     is Resource.Error -> {
