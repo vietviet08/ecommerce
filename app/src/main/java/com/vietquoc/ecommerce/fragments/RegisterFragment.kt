@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.vietquoc.ecommerce.R
 import com.vietquoc.ecommerce.data.User
 import com.vietquoc.ecommerce.databinding.FragmentRegisterBinding
 import com.vietquoc.ecommerce.util.RegisterValidation
@@ -43,6 +45,10 @@ class RegisterFragment : Fragment() {
                 )
                 val password = editPasswordRegister.text.toString().trim()
                 viewModel.createAccountWithEmailAndPassword(user, password)
+            }
+
+            textViewBackToLogin.setOnClickListener {
+                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
             }
         }
 

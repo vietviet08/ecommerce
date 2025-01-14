@@ -69,6 +69,7 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineLeft" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonStartIntroduction"
         style="@style/blueButtonStyle"
         android:layout_width="130dp"
         android:layout_height="55dp"
