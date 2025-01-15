@@ -9,9 +9,7 @@ fun validationEmail(email: String): RegisterValidation {
         return RegisterValidation.Failed("Email is not valid")
     }
     return RegisterValidation.Success
-
 }
-
 
 fun validationPassword(password: String): RegisterValidation {
     if (password.isEmpty()) return RegisterValidation.Failed("Password cannot be empty")
