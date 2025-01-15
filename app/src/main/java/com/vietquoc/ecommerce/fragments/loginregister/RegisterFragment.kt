@@ -1,4 +1,4 @@
-package com.vietquoc.ecommerce.fragments
+package com.vietquoc.ecommerce.fragments.loginregister
 
 import android.os.Bundle
 import android.util.Log
@@ -18,8 +18,8 @@ import com.vietquoc.ecommerce.util.Resource
 import com.vietquoc.ecommerce.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 private val TAG = "RegisterFragment"
+
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {

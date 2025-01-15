@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/introductionFragment"
-        android:name="com.vietquoc.ecommerce.fragments.IntroductionFragment"
+        android:name="com.vietquoc.ecommerce.fragments.loginregister.IntroductionFragment"
         android:label="IntroductionFragment"
         tools:layout="@layout/fragment_introduction">
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.vietquoc.ecommerce.fragments.LoginFragment"
+        android:name="com.vietquoc.ecommerce.fragments.loginregister.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.vietquoc.ecommerce.fragments.RegisterFragment"
+        android:name="com.vietquoc.ecommerce.fragments.loginregister.RegisterFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_register">
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountOptionsFragment"
-        android:name="com.vietquoc.ecommerce.fragments.AccountOptionsFragment"
+        android:name="com.vietquoc.ecommerce.fragments.loginregister.AccountOptionsFragment"
         android:label="AccountOptionsFragment"
         tools:layout="@layout/fragment_account_options">
         <action

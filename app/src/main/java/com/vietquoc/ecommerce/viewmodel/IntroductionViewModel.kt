@@ -41,7 +41,6 @@ class IntroductionViewModel @Inject constructor(
         }else {
             Unit
         }
-
     }
 
     fun startButtonClick(){

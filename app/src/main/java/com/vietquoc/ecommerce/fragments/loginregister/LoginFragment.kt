@@ -1,4 +1,4 @@
-package com.vietquoc.ecommerce.fragments
+package com.vietquoc.ecommerce.fragments.loginregister
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,7 +18,6 @@ import com.vietquoc.ecommerce.dialog.setupBottomSetDialog
 import com.vietquoc.ecommerce.util.Resource
 import com.vietquoc.ecommerce.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
