@@ -51,22 +51,40 @@ open class BaseCategoryFragment : Fragment() {
         })
     }
 
+    fun showOfferLoading(){
+        binding.offerProgressBar.visibility = View.VISIBLE
+    }
+
+    fun hideOfferLoading(){
+        binding.offerProgressBar.visibility = View.GONE
+
+    }
+
+    fun showBestProductLoading(){
+        binding.bestProductProgressBar.visibility = View.VISIBLE
+
+    }
+
+    fun hideBestProductLoading(){
+        binding.bestProductProgressBar.visibility = View.GONE
+
+    }
     open fun onOfferPagingRequest() {}
     open fun onBestProductPagingRequest() {}
-
-    private fun setupBestProductsRv() {
-        binding.rvBestProduct.apply {
-            layoutManager =
-                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-            adapter = bestProductAdapter
-        }
-    }
 
     private fun setupOfferRv() {
         binding.rvOffer.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = offerAdapter
+        }
+    }
+
+    private fun setupBestProductsRv() {
+        binding.rvBestProduct.apply {
+            layoutManager =
+                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+            adapter = bestProductAdapter
         }
     }
 }
