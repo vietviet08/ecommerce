@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vietquoc.ecommerce.data.Product
-import com.vietquoc.ecommerce.databinding.BestDealsRvItemBinding
 import com.vietquoc.ecommerce.databinding.ProductRvItemBinding
 
 class BestProductAdapter : RecyclerView.Adapter<BestProductAdapter.BestProductViewHolder>() {
