@@ -122,8 +122,7 @@ class MainCategoryFragment : Fragment() {
             if (v.getChildAt(0).bottom <= v.height + scrollY) {
                 viewModel.fetchBestProduct()
             }
-        }
-        )
+        })
     }
 
     private fun setupBestProductRv() {
