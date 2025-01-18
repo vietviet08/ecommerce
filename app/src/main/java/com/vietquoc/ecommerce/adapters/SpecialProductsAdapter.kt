@@ -42,7 +42,6 @@ class SpecialProductsAdapter :
                 LayoutInflater.from(p0.context), p0, false
             )
         )
-
     }
 
     override fun getItemCount(): Int {
@@ -53,5 +52,10 @@ class SpecialProductsAdapter :
     override fun onBindViewHolder(p0: SpecialProductsViewHolder, p1: Int) {
         val product = differ.currentList[p1]
         p0.bind(product)
+        p0.itemView.setOnClickListener{
+            onClick?.invoke(product)
+        }
     }
+
+    var onClick: ((Product) -> Unit)? = null
 }

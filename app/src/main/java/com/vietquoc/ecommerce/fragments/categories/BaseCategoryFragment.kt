@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.vietquoc.ecommerce.R
 import com.vietquoc.ecommerce.adapters.BestProductAdapter
 import com.vietquoc.ecommerce.databinding.FragmentBaseCategoryBinding
+import com.vietquoc.ecommerce.util.showBottomNavigationView
 
 open class BaseCategoryFragment : Fragment() {
 
@@ -49,26 +51,41 @@ open class BaseCategoryFragment : Fragment() {
                 onBestProductPagingRequest()
             }
         })
+
+        offerAdapter.onClick = {
+            val b = Bundle().apply {
+                putParcelable("product", it)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment, b)
+        }
+
+        bestProductAdapter.onClick = {
+            val b = Bundle().apply {
+                putParcelable("product", it)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment, b)
+        }
     }
 
-    fun showOfferLoading(){
+    fun showOfferLoading() {
         binding.offerProgressBar.visibility = View.VISIBLE
     }
 
-    fun hideOfferLoading(){
+    fun hideOfferLoading() {
         binding.offerProgressBar.visibility = View.GONE
 
     }
 
-    fun showBestProductLoading(){
+    fun showBestProductLoading() {
         binding.bestProductProgressBar.visibility = View.VISIBLE
 
     }
 
-    fun hideBestProductLoading(){
+    fun hideBestProductLoading() {
         binding.bestProductProgressBar.visibility = View.GONE
 
     }
+
     open fun onOfferPagingRequest() {}
     open fun onBestProductPagingRequest() {}
 
@@ -86,5 +103,10 @@ open class BaseCategoryFragment : Fragment() {
                 GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
             adapter = bestProductAdapter
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigationView()
     }
 }
