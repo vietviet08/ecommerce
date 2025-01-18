@@ -19,11 +19,14 @@ class MainCategoryViewModel @Inject constructor(
     private val _specialProducts = MutableStateFlow<Resource<List<Product>>>(Resource.Unspecified())
     val specialProducts = _specialProducts.asStateFlow()
 
-    private val _bestDealProducts = MutableStateFlow<Resource<List<Product>>>(Resource.Unspecified())
+    private val _bestDealProducts =
+        MutableStateFlow<Resource<List<Product>>>(Resource.Unspecified())
     val bestDealProducts = _bestDealProducts.asStateFlow()
 
     private val _bestProducts = MutableStateFlow<Resource<List<Product>>>(Resource.Unspecified())
     val bestProducts = _bestProducts.asStateFlow()
+
+    private val pageInfo = PagingInfo()
 
     init {
         fetchSpecialProducts()
@@ -49,7 +52,7 @@ class MainCategoryViewModel @Inject constructor(
             }
     }
 
-    fun fetchBestDealProduct(){
+    fun fetchBestDealProduct() {
         viewModelScope.launch {
             _bestDealProducts.emit(Resource.Loading())
         }
@@ -67,23 +70,35 @@ class MainCategoryViewModel @Inject constructor(
             }
     }
 
-    fun fetchBestProduct(){
+    fun fetchBestProduct() {
 
-        viewModelScope.launch {
-            _bestProducts.emit(Resource.Loading())
+        if (!pageInfo.isLast) {
+
+            viewModelScope.launch {
+                _bestProducts.emit(Resource.Loading())
+            }
+            firestore.collection("Products").limit(pageInfo.bestProductPage * 10).get()
+                .addOnSuccessListener { result ->
+                    val bestProductsList = result.toObjects(Product::class.java)
+                    pageInfo.isLast = bestProductsList == pageInfo.oldBestProducts
+                    pageInfo.oldBestProducts = bestProductsList
+                    viewModelScope.launch {
+                        _bestProducts.emit(Resource.Success(bestProductsList))
+                    }
+                    pageInfo.bestProductPage++
+                }
+                .addOnFailureListener {
+                    viewModelScope.launch {
+                        _bestProducts.emit(Resource.Error(it.message.toString()))
+                    }
+                }
         }
-        firestore.collection("Products").get()
-            .addOnSuccessListener { result ->
-                val bestProductsList = result.toObjects(Product::class.java)
-                viewModelScope.launch {
-                    _bestProducts.emit(Resource.Success(bestProductsList))
-                }
-            }
-            .addOnFailureListener {
-                viewModelScope.launch {
-                    _bestProducts.emit(Resource.Error(it.message.toString()))
-                }
-            }
     }
 
 }
+
+internal data class PagingInfo(
+    var bestProductPage: Long = 1,
+    var oldBestProducts: List<Product> = emptyList(),
+    var isLast: Boolean = false
+)
