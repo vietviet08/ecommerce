@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vietquoc.ecommerce.R
+import com.vietquoc.ecommerce.adapters.BestDealsAdapter
+import com.vietquoc.ecommerce.adapters.BestProductAdapter
 import com.vietquoc.ecommerce.adapters.SpecialProductsAdapter
 import com.vietquoc.ecommerce.databinding.FragmentMainCategoryBinding
 import com.vietquoc.ecommerce.util.Resource
@@ -24,7 +27,10 @@ class MainCategoryFragment : Fragment() {
 
     private lateinit var binding: FragmentMainCategoryBinding
     private lateinit var specialProductsAdapter: SpecialProductsAdapter
+    private lateinit var bestDealsAdapter: BestDealsAdapter
+    private lateinit var bestProductAdapter: BestProductAdapter
     private val viewModel by viewModels<MainCategoryViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +44,9 @@ class MainCategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupSpecialProductsRv()
+        setupBestDealsProductRv()
+        setupBestProductRv()
+
         lifecycleScope.launchWhenCreated {
             viewModel.specialProducts.collectLatest {
                 when (it) {
@@ -60,6 +69,71 @@ class MainCategoryFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.bestDealProducts.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        showLoading()
+                    }
+
+                    is Resource.Success -> {
+                        bestDealsAdapter.differ.submitList(it.data)
+                        hideLoading()
+                    }
+
+                    is Resource.Error -> {
+                        hideLoading()
+                        Log.e(TAG, it.message.toString())
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.bestProducts.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        showLoading()
+                    }
+
+                    is Resource.Success -> {
+                        bestProductAdapter.differ.submitList(it.data)
+                        hideLoading()
+                    }
+
+                    is Resource.Error -> {
+                        hideLoading()
+                        Log.e(TAG, it.message.toString())
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    private fun setupBestProductRv() {
+        bestProductAdapter = BestProductAdapter()
+        binding.rvBestProduct.apply {
+            layoutManager =
+                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+            adapter = bestProductAdapter
+        }
+    }
+
+    private fun setupBestDealsProductRv() {
+        bestDealsAdapter = BestDealsAdapter()
+        binding.rvBestDealProduct.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = bestDealsAdapter
+        }
+
     }
 
     private fun hideLoading() {
@@ -77,7 +151,6 @@ class MainCategoryFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = specialProductsAdapter
         }
-
     }
 
 }

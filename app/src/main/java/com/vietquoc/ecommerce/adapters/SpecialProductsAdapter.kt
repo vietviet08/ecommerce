@@ -18,7 +18,7 @@ class SpecialProductsAdapter :
             binding.apply {
                 Glide.with(itemView).load(product.images[0]).into(imgAd)
                 tvAdName.text = product.name
-                tvAdPrice.text = product.price.toString()
+                tvAdPrice.text = "$ ${product.price}"
             }
         }
     }
