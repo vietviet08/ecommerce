@@ -74,5 +74,5 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() 
         }
     }
 
-    val onClick: ((Address) -> Unit)? = null
+    var onClick: ((Address) -> Unit)? = null
 }
