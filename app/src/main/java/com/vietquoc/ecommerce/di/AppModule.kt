@@ -2,10 +2,12 @@ package com.vietquoc.ecommerce.di
 
 import android.app.Application
 import android.content.Context
+import com.cloudinary.Cloudinary
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.vietquoc.ecommerce.BuildConfig
 import com.vietquoc.ecommerce.firebase.FirebaseCommon
 import com.vietquoc.ecommerce.util.Constants
 import dagger.Module
@@ -36,4 +38,15 @@ object AppModule {
         firebaseAuth: FirebaseAuth,
         firestore: FirebaseFirestore
     ) = FirebaseCommon(firestore, firebaseAuth)
+
+    @Provides
+    @Singleton
+    fun provideCloudinary() = Cloudinary(
+        mapOf(
+            "cloud_name" to BuildConfig.CLOUDINARY_CLOUD_NAME,
+            "api_key" to BuildConfig.CLOUDINARY_API_KEY,
+            "api_secret" to BuildConfig.CLOUDINARY_API_SECRET
+        )
+    )
+
 }

@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,6 +10,17 @@ plugins {
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.google.gms.google.services)
 }
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+
+val cloudinaryCloudName: String = localProperties["CLOUDINARY_CLOUD_NAME"] as String? ?: ""
+val cloudinaryApiKey: String = localProperties["CLOUDINARY_API_KEY"] as String? ?: ""
+val cloudinaryApiSecret: String = localProperties["CLOUDINARY_API_SECRET"] as String? ?: ""
+
 
 android {
     namespace = "com.vietquoc.ecommerce"
@@ -41,6 +55,22 @@ android {
 
     buildFeatures{
         viewBinding = true
+        buildConfig = true
+    }
+
+    buildTypes {
+        getByName("debug") {
+            buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"$cloudinaryCloudName\"")
+            buildConfigField("String", "CLOUDINARY_API_KEY", "\"$cloudinaryApiKey\"")
+            buildConfigField("String", "CLOUDINARY_API_SECRET", "\"$cloudinaryApiSecret\"")
+        }
+        getByName("release") {
+            buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"$cloudinaryCloudName\"")
+            buildConfigField("String", "CLOUDINARY_API_KEY", "\"$cloudinaryApiKey\"")
+            buildConfigField("String", "CLOUDINARY_API_SECRET", "\"$cloudinaryApiSecret\"")
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
     }
 }
 
@@ -83,4 +113,10 @@ dependencies {
     //Dagger hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    //coroutines-play-services
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
+
+    //Cloudinary
+    implementation("com.cloudinary:cloudinary-android:3.0.2")
 }
