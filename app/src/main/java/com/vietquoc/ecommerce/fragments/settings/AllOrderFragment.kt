@@ -68,6 +68,11 @@ class AllOrderFragment : Fragment() {
             }
         }
 
+        ordersAdapter.onClick = {
+            val action = AllOrderFragmentDirections.actionAllOrderFragmentToOrderDetailFragment(it)
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun setupOrdersRv() {

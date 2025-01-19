@@ -89,5 +89,19 @@
         android:id="@+id/allOrderFragment"
         android:name="com.vietquoc.eommerce.fragments.settings.AllOrderFragment"
         android:label="AllOrderFragment"
-        tools:layout="@layout/fragment_orders" />
+        tools:layout="@layout/fragment_orders" >
+        <action
+            android:id="@+id/action_allOrderFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.vietquoc.ecommerce.fragments.settings.OrderDetailFragment"
+        android:label="OrderDetailFragment"
+        tools:layout="@layout/fragment_order_detail"
+        >
+        <argument
+            android:name="order"
+            app:argType="com.vietquoc.ecommerce.data.order.Order" />
+    </fragment>
 </navigation>

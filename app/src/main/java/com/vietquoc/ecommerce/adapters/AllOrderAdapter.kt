@@ -25,18 +25,23 @@ class AllOrderAdapter : RecyclerView.Adapter<AllOrderAdapter.AllOrderViewHolder>
                     is OrderStatus.Ordered -> {
                         ColorDrawable(resources.getColor(R.color.g_orange_yellow))
                     }
+
                     is OrderStatus.Confirmed -> {
                         ColorDrawable(resources.getColor(R.color.g_green))
                     }
+
                     is OrderStatus.Delivered -> {
                         ColorDrawable(resources.getColor(R.color.g_green))
                     }
+
                     is OrderStatus.Shipped -> {
                         ColorDrawable(resources.getColor(R.color.g_green))
                     }
+
                     is OrderStatus.Canceled -> {
                         ColorDrawable(resources.getColor(R.color.g_red))
                     }
+
                     is OrderStatus.Returned -> {
                         ColorDrawable(resources.getColor(R.color.g_red))
                     }
@@ -76,6 +81,9 @@ class AllOrderAdapter : RecyclerView.Adapter<AllOrderAdapter.AllOrderViewHolder>
     override fun onBindViewHolder(p0: AllOrderViewHolder, p1: Int) {
         val order = differ.currentList[p1]
         p0.bind(order)
+        p0.itemView.setOnClickListener {
+            onClick?.invoke(order)
+        }
     }
 
     var onClick: ((Order) -> Unit)? = null
