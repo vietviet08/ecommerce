@@ -6,16 +6,15 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarAddresses"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/imageAddressClose"
@@ -33,13 +32,15 @@
                 android:id="@+id/tvPaymentMethods"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="25dp"
+                android:fontFamily="@font/poppins_light"
                 android:text="Addresses"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageAddressClose"
-                app:layout_constraintStart_toEndOf="@id/imageAddressClose"
-                app:layout_constraintTop_toTopOf="@+id/imageAddressClose" />
+                app:layout_constraintStart_toStartOf="@id/imageAddressClose"
+                app:layout_constraintTop_toTopOf="@+id/imageAddressClose"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>

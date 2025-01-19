@@ -17,7 +17,9 @@ import com.vietquoc.ecommerce.fragments.categories.CupboardFragment
 import com.vietquoc.ecommerce.fragments.categories.FurnitureFragment
 import com.vietquoc.ecommerce.fragments.categories.MainCategoryFragment
 import com.vietquoc.ecommerce.fragments.categories.TableFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding

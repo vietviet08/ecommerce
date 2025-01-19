@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.vietquoc.ecommerce.data.Address
 import com.vietquoc.ecommerce.databinding.FragmentAddressBinding
 import com.vietquoc.ecommerce.util.Resource
@@ -32,6 +34,7 @@ class AddressFragment : Fragment() {
 
                     is Resource.Success -> {
                         binding.progressbarAddress.visibility = View.INVISIBLE
+                        findNavController().navigateUp()
                     }
 
                     is Resource.Error -> {
@@ -67,6 +70,10 @@ class AddressFragment : Fragment() {
                 val city = binding.edCity.text.toString().trim()
                 val address = Address(addressTitle, fullName, street, phone, city)
                 viewModel.addAddress(address)
+            }
+
+            imageAddressClose.setOnClickListener {
+                findNavController().navigateUp()
             }
         }
     }

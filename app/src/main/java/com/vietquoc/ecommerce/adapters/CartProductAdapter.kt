@@ -59,7 +59,6 @@ class CartProductAdapter :
         override fun areContentsTheSame(p0: CartProduct, p1: CartProduct): Boolean {
             return p0 == p1
         }
-
     }
 
     val differ = AsyncListDiffer(this, diffCallback)
@@ -73,8 +72,7 @@ class CartProductAdapter :
     }
 
     override fun getItemCount(): Int {
-        val product = differ.currentList
-        return product.size
+        return differ.currentList.size
     }
 
     override fun onBindViewHolder(p0: CartProductsViewHolder, p1: Int) {

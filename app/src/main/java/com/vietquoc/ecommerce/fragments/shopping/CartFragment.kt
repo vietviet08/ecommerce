@@ -19,8 +19,10 @@ import com.vietquoc.ecommerce.util.Resource
 import com.vietquoc.ecommerce.util.VerticalItemDecoration
 import com.vietquoc.ecommerce.util.showBottomNavigationView
 import com.vietquoc.ecommerce.viewmodel.CartViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentCartBinding
@@ -40,7 +42,9 @@ class CartFragment : Fragment() {
 
         setupCartRv()
 
-        binding.imageCloseCart.setOnClickListener{
+        var totalPrice = 0f
+
+        binding.imageCloseCart.setOnClickListener {
             findNavController().navigateUp()
         }
 
@@ -59,10 +63,19 @@ class CartFragment : Fragment() {
             viewModel.changeQuantity(it, FirebaseCommon.QuantityChanging.DECREASE)
         }
 
+        binding.buttonCheckout.setOnClickListener {
+            val action = CartFragmentDirections.actionCartFragmentToBillingFragment(
+                totalPrice,
+                cartAdapter.differ.currentList.toTypedArray()
+            )
+            findNavController().navigate(action)
+
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.productsPrice.collectLatest { price ->
                 price?.let {
+                    totalPrice = it
                     binding.tvTextTotalPrice.text = "$ ${String.format("%.2f", price)}"
                 }
             }
