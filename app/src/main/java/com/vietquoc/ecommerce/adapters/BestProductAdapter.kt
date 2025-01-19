@@ -13,7 +13,6 @@ import com.vietquoc.ecommerce.databinding.ProductRvItemBinding
 
 class BestProductAdapter : RecyclerView.Adapter<BestProductAdapter.BestProductViewHolder>() {
 
-
     class BestProductViewHolder(private val binding: ProductRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

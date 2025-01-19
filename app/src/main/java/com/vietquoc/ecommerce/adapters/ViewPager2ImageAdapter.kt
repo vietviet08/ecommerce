@@ -11,6 +11,7 @@ import com.vietquoc.ecommerce.databinding.ViewpagerImageItemBinding
 
 class ViewPager2ImageAdapter :
     RecyclerView.Adapter<ViewPager2ImageAdapter.ViewPager2ImageViewHolder>() {
+
     class ViewPager2ImageViewHolder(val binding: ViewpagerImageItemBinding) :
         ViewHolder(binding.root) {
         fun bind(image: String) {

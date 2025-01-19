@@ -16,17 +16,16 @@
             android:id="@+id/img_ad"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="12dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/addToListWish"
+            />
 
         <TextView
             android:id="@+id/tv_ad_name"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/poppins_thin"
             android:maxLines="2"
             android:text="Scotch Premium"
@@ -60,9 +59,10 @@
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_ad_price" />
+            app:layout_constraintTop_toBottomOf="@id/img_ad" />
 
         <LinearLayout
+            android:id="@+id/addToListWish"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:background="@drawable/icon_background"
