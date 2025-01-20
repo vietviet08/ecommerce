@@ -115,6 +115,10 @@ class UserAccountFragment : Fragment() {
             intent.type = "image/*"
             imageActivityResultLauncher.launch(intent)
         }
+
+        binding.imageCloseUserAccount.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
 
