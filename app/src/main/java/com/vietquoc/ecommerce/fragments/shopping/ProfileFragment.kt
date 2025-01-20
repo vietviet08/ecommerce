@@ -50,7 +50,12 @@ class ProfileFragment : Fragment() {
         }
 
         binding.linearBilling.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_billingFragment)
+            val action = ProfileFragmentDirections.actionProfileFragmentToBillingFragment(
+                0f,
+                emptyArray(),
+                false
+            )
+            findNavController().navigate(action)
         }
 
         binding.linearLogOut.setOnClickListener {
