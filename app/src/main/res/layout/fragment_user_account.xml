@@ -157,7 +157,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@+id/tvUpdatePassword"
             app:spinning_bar_color="@color/white" />
 
         <androidx.constraintlayout.widget.Guideline

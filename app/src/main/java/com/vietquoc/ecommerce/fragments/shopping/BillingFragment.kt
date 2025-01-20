@@ -63,7 +63,7 @@ class BillingFragment : Fragment() {
         setupAddressRv()
         setupBillingProductsRv()
 
-        if(!args.payment){
+        if (!args.payment) {
             binding.apply {
                 buttonPlaceOrder.visibility = View.INVISIBLE
                 totalBoxContainer.visibility = View.INVISIBLE
@@ -81,7 +81,7 @@ class BillingFragment : Fragment() {
         }
 
         billingProductsAdapter.differ.submitList(products)
-        binding.tvTotalPrice.text = "$ $totalPrice"
+        binding.tvTotalPrice.text = "$ ${String.format("%.2f", totalPrice)}"
 
         addressAdapter.onClick = {
             selectedAddress = it

@@ -170,13 +170,12 @@
             android:id="@+id/linear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/total_box_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/rvProducts">
+            >
 
             <TextView
                 android:layout_width="0dp"

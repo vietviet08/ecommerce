@@ -84,6 +84,13 @@ class ProductDetailFragment : Fragment() {
         }
 
         binding.buttonAddToCart.setOnClickListener {
+            if (sizeAdapter.differ.currentList.isNotEmpty() && selectedSize == null ||
+                colorAdapter.differ.currentList.isNotEmpty() && selectedColor == null
+            ) {
+                Toast.makeText(requireContext(), "Please select size and color", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
             viewModel.addUpdateProductInCart(CartProduct(product, 1, selectedColor, selectedSize))
         }
 

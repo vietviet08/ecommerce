@@ -104,12 +104,12 @@
             android:id="@+id/toolBoxContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/total_box_background"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@id/bottomGuideline">
-
+            app:layout_constraintBottom_toTopOf="@id/buttonCheckout"
+            >
 
             <TextView
                 android:id="@+id/tvTextTotal"
@@ -121,7 +121,7 @@
                 android:fontFamily="@font/sf_pro_display"
                 android:text="Total"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -150,13 +150,11 @@
             style="@style/blueButtonStyle"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            android:layout_marginTop="45dp"
             android:layout_marginBottom="20dp"
             android:text="Check out"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@id/toolBoxContainer"
             app:spinning_bar_color="@color/white" />
 
 
