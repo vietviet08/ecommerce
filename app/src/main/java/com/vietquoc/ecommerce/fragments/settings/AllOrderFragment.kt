@@ -23,7 +23,7 @@ class AllOrderFragment : Fragment() {
 
     private lateinit var binding: FragmentOrdersBinding
     val viewModel by viewModels<AllOrderViewModel>()
-    val ordersAdapter by lazy { AllOrderAdapter() }
+    private val ordersAdapter by lazy { AllOrderAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,

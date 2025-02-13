@@ -43,7 +43,9 @@ class DetailViewModel @Inject constructor(
                 }
             }
             .addOnFailureListener {
-
+                viewModelScope.launch {
+                    _addToCart.emit(Resource.Error(it.message.toString()))
+                }
             }
     }
 

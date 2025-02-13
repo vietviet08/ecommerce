@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.vietquoc.ecommerce.BuildConfig
+import com.vietquoc.ecommerce.data.Category
 import com.vietquoc.ecommerce.firebase.FirebaseCommon
 import com.vietquoc.ecommerce.util.Constants
 import dagger.Module
@@ -48,5 +49,4 @@ object AppModule {
             "api_secret" to BuildConfig.CLOUDINARY_API_SECRET
         )
     )
-
 }
