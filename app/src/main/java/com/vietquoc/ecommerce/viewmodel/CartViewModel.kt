@@ -19,115 +19,124 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CartViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth,
-    private val firebaseCommon: FirebaseCommon
-) : ViewModel() {
+class CartViewModel
+    @Inject
+    constructor(
+        private val firestore: FirebaseFirestore,
+        private val auth: FirebaseAuth,
+        private val firebaseCommon: FirebaseCommon,
+    ) : ViewModel() {
+        private val _cartProducts =
+            MutableStateFlow<Resource<List<CartProduct>>>(Resource.Unspecified())
+        val cartProducts = _cartProducts.asStateFlow()
 
-    private val _cartProducts =
-        MutableStateFlow<Resource<List<CartProduct>>>(Resource.Unspecified())
-    val cartProducts = _cartProducts.asStateFlow()
+        private var cartProductDocuments = emptyList<DocumentSnapshot>()
 
-    private var cartProductDocuments = emptyList<DocumentSnapshot>()
-
-    val productsPrice = cartProducts.map {
-        when (it) {
-            is Resource.Success -> {
-                calculatePrice(it.data!!)
-            }
-
-            else -> null
-        }
-    }
-
-    private val _deleteDialog = MutableSharedFlow<CartProduct>()
-    val deleteDialog = _deleteDialog.asSharedFlow()
-
-    private fun calculatePrice(data: List<CartProduct>): Float {
-        return data.sumByDouble { cartProduct ->
-            (cartProduct.product.offerPercentage.getProductPrice(cartProduct.product.price) * cartProduct.quantity).toDouble()
-        }.toFloat()
-    }
-
-    init {
-        getCartProducts()
-    }
-
-    private fun getCartProducts() {
-        viewModelScope.launch {
-            _cartProducts.emit(Resource.Loading())
-        }
-        firestore.collection("user").document(auth.uid!!).collection("cart")
-            .addSnapshotListener { value, error ->
-                if (error != null || value == null) {
-                    viewModelScope.launch {
-                        _cartProducts.emit(Resource.Error(error?.message.toString()))
+        val productsPrice =
+            cartProducts.map {
+                when (it) {
+                    is Resource.Success -> {
+                        calculatePrice(it.data!!)
                     }
-                } else {
-                    cartProductDocuments = value.documents
-                    val cartProducts = value.toObjects(CartProduct::class.java)
+
+                    else -> null
+                }
+            }
+
+        private val _deleteDialog = MutableSharedFlow<CartProduct>()
+        val deleteDialog = _deleteDialog.asSharedFlow()
+
+        private fun calculatePrice(data: List<CartProduct>): Float =
+            data
+                .sumByDouble { cartProduct ->
+                    (cartProduct.product.offerPercentage.getProductPrice(cartProduct.product.price) * cartProduct.quantity).toDouble()
+                }.toFloat()
+
+        init {
+            getCartProducts()
+        }
+
+        private fun getCartProducts() {
+            viewModelScope.launch {
+                _cartProducts.emit(Resource.Loading())
+            }
+            firestore
+                .collection("user")
+                .document(auth.uid!!)
+                .collection("cart")
+                .addSnapshotListener { value, error ->
+                    if (error != null || value == null) {
+                        viewModelScope.launch {
+                            _cartProducts.emit(Resource.Error(error?.message.toString()))
+                        }
+                    } else {
+                        cartProductDocuments = value.documents
+                        val cartProducts = value.toObjects(CartProduct::class.java)
+                        viewModelScope.launch {
+                            _cartProducts.emit(Resource.Success(cartProducts))
+                        }
+                    }
+                }
+        }
+
+        fun changeQuantity(
+            cartProduct: CartProduct,
+            quantityChanging: FirebaseCommon.QuantityChanging,
+        ) {
+            val index = cartProducts.value.data?.indexOf(cartProduct)
+            val documentId = cartProductDocuments[index!!].id
+            when (quantityChanging) {
+                FirebaseCommon.QuantityChanging.INCREASE -> {
                     viewModelScope.launch {
-                        _cartProducts.emit(Resource.Success(cartProducts))
+                        _cartProducts.emit(Resource.Loading())
+                    }
+                    increaseQuantity(documentId)
+                }
+
+                FirebaseCommon.QuantityChanging.DECREASE -> {
+                    if (cartProduct.quantity == 1) {
+                        viewModelScope.launch {
+                            _deleteDialog.emit(cartProduct)
+                        }
+                        return
+                    }
+                    viewModelScope.launch {
+                        _cartProducts.emit(Resource.Loading())
+                    }
+                    decreaseQuantity(documentId)
+                }
+            }
+        }
+
+        private fun decreaseQuantity(documentId: String) {
+            firebaseCommon.decreaseQuantity(documentId) { result, exception ->
+                if (exception != null) {
+                    viewModelScope.launch {
+                        _cartProducts.emit(Resource.Error(exception.message.toString()))
                     }
                 }
             }
-    }
+        }
 
-    fun changeQuantity(
-        cartProduct: CartProduct,
-        quantityChanging: FirebaseCommon.QuantityChanging
-    ) {
-        val index = cartProducts.value.data?.indexOf(cartProduct)
-        val documentId = cartProductDocuments[index!!].id
-        when (quantityChanging) {
-            FirebaseCommon.QuantityChanging.INCREASE -> {
-                viewModelScope.launch {
-                    _cartProducts.emit(Resource.Loading())
-                }
-                increaseQuantity(documentId)
-            }
-
-            FirebaseCommon.QuantityChanging.DECREASE -> {
-                if (cartProduct.quantity == 1) {
+        private fun increaseQuantity(documentId: String) {
+            firebaseCommon.increaseQuantity(documentId) { result, exception ->
+                if (exception != null) {
                     viewModelScope.launch {
-                        _deleteDialog.emit(cartProduct)
+                        _cartProducts.emit(Resource.Error(exception.message.toString()))
                     }
-                    return
-                }
-                viewModelScope.launch {
-                    _cartProducts.emit(Resource.Loading())
-                }
-                decreaseQuantity(documentId)
-            }
-        }
-    }
-
-    private fun decreaseQuantity(documentId: String) {
-        firebaseCommon.decreaseQuantity(documentId) { result, exception ->
-            if (exception != null) {
-                viewModelScope.launch {
-                    _cartProducts.emit(Resource.Error(exception.message.toString()))
                 }
             }
         }
 
-    }
-
-    private fun increaseQuantity(documentId: String) {
-        firebaseCommon.increaseQuantity(documentId) { result, exception ->
-            if (exception != null) {
-                viewModelScope.launch {
-                    _cartProducts.emit(Resource.Error(exception.message.toString()))
-                }
-            }
+        fun deleteCartProduct(it: CartProduct?) {
+            val index = cartProducts.value.data?.indexOf(it)
+            val documentId = cartProductDocuments[index!!].id
+            firestore
+                .collection("user")
+                .document(auth.uid!!)
+                .collection("cart")
+                .document(documentId)
+                .delete()
         }
     }
 
-    fun deleteCartProduct(it: CartProduct?) {
-        val index = cartProducts.value.data?.indexOf(it)
-        val documentId = cartProductDocuments[index!!].id
-        firestore.collection("user").document(auth.uid!!).collection("cart")
-            .document(documentId).delete()
-    }
-}

@@ -1,17 +1,23 @@
 package com.vietquoc.ecommerce.data.order
 
-sealed class OrderStatus(val status: String) {
+sealed class OrderStatus(
+    val status: String,
+) {
     object Ordered : OrderStatus("Ordered")
+
     object Canceled : OrderStatus("Canceled")
+
     object Confirmed : OrderStatus("Confirmed")
+
     object Shipped : OrderStatus("Shipped")
+
     object Delivered : OrderStatus("Delivered")
+
     object Returned : OrderStatus("Returned")
 }
 
-
-fun getOrderStatus(status: String): OrderStatus {
-    return when (status) {
+fun getOrderStatus(status: String): OrderStatus =
+    when (status) {
         "Ordered" -> {
             OrderStatus.Ordered
         }
@@ -34,4 +40,4 @@ fun getOrderStatus(status: String): OrderStatus {
 
         else -> OrderStatus.Returned
     }
-}
+

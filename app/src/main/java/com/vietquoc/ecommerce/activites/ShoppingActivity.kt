@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class ShoppingActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityShoppingBinding
 
     val viewModel by viewModels<CartViewModel>()
@@ -31,9 +30,9 @@ class ShoppingActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.cartProducts.collectLatest {
-                when(it){
+                when (it) {
                     is Resource.Success -> {
-                        val count = it.data?.size?: 0
+                        val count = it.data?.size ?: 0
                         val bottomNavigation = binding.bottomNavigation
 
                         bottomNavigation.getOrCreateBadge(R.id.cartFragment).apply {
@@ -47,3 +46,4 @@ class ShoppingActivity : AppCompatActivity() {
         }
     }
 }
+

@@ -6,10 +6,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.vietquoc.ecommerce.R
 
-
-fun Fragment.setupBottomSetDialog(
-    onSendClick: (String) -> Unit
-){
+fun Fragment.setupBottomSetDialog(onSendClick: (String) -> Unit) {
     val dialog = BottomSheetDialog(requireContext(), R.style.DialogStyle)
     val view = layoutInflater.inflate(R.layout.reset_password_dialog, null)
 
@@ -30,5 +27,5 @@ fun Fragment.setupBottomSetDialog(
     buttonCancel.setOnClickListener {
         dialog.dismiss()
     }
-
 }
+

@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AccessoryFragment: BaseCategoryFragment() {
+class AccessoryFragment : BaseCategoryFragment() {
     @Inject
     lateinit var firestore: FirebaseFirestore
 
@@ -23,7 +23,10 @@ class AccessoryFragment: BaseCategoryFragment() {
         BaseCategoryViewModelFactory(firestore, Category.Accessory)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenStarted {
@@ -39,7 +42,8 @@ class AccessoryFragment: BaseCategoryFragment() {
                     }
 
                     is Resource.Error -> {
-                        Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG)
+                        Snackbar
+                            .make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG)
                             .show()
                         hideOfferLoading()
                     }
@@ -62,7 +66,8 @@ class AccessoryFragment: BaseCategoryFragment() {
                     }
 
                     is Resource.Error -> {
-                        Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG)
+                        Snackbar
+                            .make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG)
                             .show()
                         hideBestProductLoading()
                     }
@@ -73,3 +78,4 @@ class AccessoryFragment: BaseCategoryFragment() {
         }
     }
 }
+

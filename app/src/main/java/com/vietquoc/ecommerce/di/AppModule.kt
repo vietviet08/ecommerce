@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.vietquoc.ecommerce.BuildConfig
-import com.vietquoc.ecommerce.data.Category
 import com.vietquoc.ecommerce.firebase.FirebaseCommon
 import com.vietquoc.ecommerce.util.Constants
 import dagger.Module
@@ -20,7 +19,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Provides
     @Singleton
     fun provideFirebaseAuth() = FirebaseAuth.getInstance()
@@ -30,23 +28,24 @@ object AppModule {
     fun provideFirebaseFirestoreDatabase() = Firebase.firestore
 
     @Provides
-    fun provideIntroductionSP(application: Application) =
-        application.getSharedPreferences(Constants.INTRODUCTION_SP, Context.MODE_PRIVATE)
+    fun provideIntroductionSP(application: Application) = application.getSharedPreferences(Constants.INTRODUCTION_SP, Context.MODE_PRIVATE)
 
     @Provides
     @Singleton
     fun provideFirebaseCommon(
         firebaseAuth: FirebaseAuth,
-        firestore: FirebaseFirestore
+        firestore: FirebaseFirestore,
     ) = FirebaseCommon(firestore, firebaseAuth)
 
     @Provides
     @Singleton
-    fun provideCloudinary() = Cloudinary(
-        mapOf(
-            "cloud_name" to BuildConfig.CLOUDINARY_CLOUD_NAME,
-            "api_key" to BuildConfig.CLOUDINARY_API_KEY,
-            "api_secret" to BuildConfig.CLOUDINARY_API_SECRET
+    fun provideCloudinary() =
+        Cloudinary(
+            mapOf(
+                "cloud_name" to BuildConfig.CLOUDINARY_CLOUD_NAME,
+                "api_key" to BuildConfig.CLOUDINARY_API_KEY,
+                "api_secret" to BuildConfig.CLOUDINARY_API_SECRET,
+            ),
         )
-    )
 }
+

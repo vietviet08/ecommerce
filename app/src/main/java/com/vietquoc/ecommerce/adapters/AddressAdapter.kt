@@ -12,9 +12,13 @@ import com.vietquoc.ecommerce.data.Address
 import com.vietquoc.ecommerce.databinding.AddressRvItemBinding
 
 class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
-
-    inner class AddressViewHolder(val binding: AddressRvItemBinding) : ViewHolder(binding.root) {
-        fun bind(address: Address, isSelected: Boolean) {
+    inner class AddressViewHolder(
+        val binding: AddressRvItemBinding,
+    ) : ViewHolder(binding.root) {
+        fun bind(
+            address: Address,
+            isSelected: Boolean,
+        ) {
             binding.apply {
                 buttonAddress.text = address.addressTitle
                 if (isSelected) {
@@ -26,21 +30,22 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() 
                 }
             }
         }
-
     }
 
     var selectedAddress = -1
 
-    private val differCallback = object : DiffUtil.ItemCallback<Address>() {
-        override fun areItemsTheSame(p0: Address, p1: Address): Boolean {
-            return p0.addressTitle == p1.addressTitle && p0.fullName == p1.fullName
-        }
+    private val differCallback =
+        object : DiffUtil.ItemCallback<Address>() {
+            override fun areItemsTheSame(
+                p0: Address,
+                p1: Address,
+            ): Boolean = p0.addressTitle == p1.addressTitle && p0.fullName == p1.fullName
 
-        override fun areContentsTheSame(p0: Address, p1: Address): Boolean {
-            return p0 == p1
+            override fun areContentsTheSame(
+                p0: Address,
+                p1: Address,
+            ): Boolean = p0 == p1
         }
-
-    }
 
     val differ = AsyncListDiffer(this, differCallback)
 
@@ -50,24 +55,28 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() 
         }
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): AddressViewHolder {
-        return AddressViewHolder(
+    override fun onCreateViewHolder(
+        p0: ViewGroup,
+        p1: Int,
+    ): AddressViewHolder =
+        AddressViewHolder(
             AddressRvItemBinding.inflate(
-                LayoutInflater.from(p0.context)
-            )
+                LayoutInflater.from(p0.context),
+            ),
         )
-    }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
+    override fun getItemCount(): Int = differ.currentList.size
 
-    override fun onBindViewHolder(p0: AddressViewHolder, p1: Int) {
+    override fun onBindViewHolder(
+        p0: AddressViewHolder,
+        p1: Int,
+    ) {
         val address = differ.currentList[p1]
         p0.bind(address, selectedAddress == p1)
         p0.binding.buttonAddress.setOnClickListener {
-            if (selectedAddress >= 0)
+            if (selectedAddress >= 0) {
                 notifyItemChanged(selectedAddress)
+            }
             selectedAddress = p0.adapterPosition
             notifyItemChanged(selectedAddress)
             onClick?.invoke(address)
@@ -76,3 +85,4 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() 
 
     var onClick: ((Address) -> Unit)? = null
 }
+

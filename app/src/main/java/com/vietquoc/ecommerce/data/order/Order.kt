@@ -16,7 +16,8 @@ data class Order(
     val products: List<CartProduct> = emptyList(),
     val address: Address = Address(),
     val date: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date()),
-    val orderId: Long = Random.nextLong(0, 100_000_000_000) + totalPrice.toLong()
+    val orderId: Long = Random.nextLong(0, 100_000_000_000) + totalPrice.toLong(),
 ) : Parcelable {
     constructor() : this("", 0f, emptyList())
 }
+

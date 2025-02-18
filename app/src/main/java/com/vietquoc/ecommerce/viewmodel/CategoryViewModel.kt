@@ -12,9 +12,8 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel constructor(
     private val firestore: FirebaseFirestore,
-    private val category: Category
+    private val category: Category,
 ) : ViewModel() {
-
     private val _offerProducts = MutableStateFlow<Resource<List<Product>>>(Resource.Unspecified())
     val offerProducts = _offerProducts.asStateFlow()
 
@@ -30,8 +29,11 @@ class CategoryViewModel constructor(
         viewModelScope.launch {
             _offerProducts.emit(Resource.Loading())
         }
-        firestore.collection("Products").whereEqualTo("category", category.category)
-            .whereNotEqualTo("offerPercentage", null).get()
+        firestore
+            .collection("Products")
+            .whereEqualTo("category", category.category)
+            .whereNotEqualTo("offerPercentage", null)
+            .get()
             .addOnSuccessListener {
                 val products = it.toObjects(Product::class.java)
                 viewModelScope.launch {
@@ -48,8 +50,11 @@ class CategoryViewModel constructor(
         viewModelScope.launch {
             _bestProducts.emit(Resource.Loading())
         }
-        firestore.collection("Products").whereEqualTo("category", category.category)
-            .whereEqualTo("offerPercentage", null).get()
+        firestore
+            .collection("Products")
+            .whereEqualTo("category", category.category)
+            .whereEqualTo("offerPercentage", null)
+            .get()
             .addOnSuccessListener {
                 val products = it.toObjects(Product::class.java)
                 viewModelScope.launch {
@@ -61,5 +66,5 @@ class CategoryViewModel constructor(
                 }
             }
     }
-
 }
+

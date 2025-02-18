@@ -13,7 +13,8 @@ data class Product(
     val description: String? = null,
     val colors: MutableList<Int>? = null,
     val sizes: List<String>? = null,
-    val images: List<String>
+    val images: List<String>,
 ) : Parcelable {
-    constructor(): this("0","","",0f, images = emptyList())
+    constructor() : this("0", "", "", 0f, images = emptyList())
 }
+

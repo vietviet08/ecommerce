@@ -16,3 +16,4 @@ data class Address(
 ) : Parcelable {
     constructor() : this("", "", "", "", "", "")
 }
+

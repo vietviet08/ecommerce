@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChairFragment : BaseCategoryFragment() {
-
     @Inject
     lateinit var firestore: FirebaseFirestore
 
@@ -24,7 +23,10 @@ class ChairFragment : BaseCategoryFragment() {
         BaseCategoryViewModelFactory(firestore, Category.Chair)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenStarted {
@@ -40,7 +42,8 @@ class ChairFragment : BaseCategoryFragment() {
                     }
 
                     is Resource.Error -> {
-                        Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG)
+                        Snackbar
+                            .make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG)
                             .show()
                         hideOfferLoading()
                     }
@@ -63,7 +66,8 @@ class ChairFragment : BaseCategoryFragment() {
                     }
 
                     is Resource.Error -> {
-                        Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG)
+                        Snackbar
+                            .make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG)
                             .show()
                         hideBestProductLoading()
                     }
@@ -73,5 +77,5 @@ class ChairFragment : BaseCategoryFragment() {
             }
         }
     }
-
 }
+
